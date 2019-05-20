@@ -14,7 +14,7 @@ class TabType {
 }
 
 class TabNavigatorRoutes {
-  static const String main = '/main';
+  static const String main = '/';
 //  static const String movieCategory = 'movieCategory';
 }
 

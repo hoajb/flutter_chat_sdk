@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../tab_navigator.dart';
+import 'page/chats_my.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -50,11 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
     final FirebaseUser user = await _auth.signInWithCredential(credential);
     print("signed in " + user.displayName);
 
-    Navigator.pushNamed(
-      context, TabNavigatorRoutes.main,
-//                  arguments: MovieCategoryPageArguments(
-//                      movies: movieList.childrenMovies, title: movieList.title)
-    );
+    Route route = MaterialPageRoute(builder: (context) => ChatsMy());
+    Navigator.push(context, route);
     return user;
   }
 

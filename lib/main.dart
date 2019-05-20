@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'ui/login.dart';
 import 'ui/page/chats_my.dart';
+import 'ui/splashscreen.dart';
 import 'util/alog.dart';
 
 void main() {
@@ -15,8 +16,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Chat SDK",
-      home: LoginScreen(),
+      home: SplashScreen(),
       routes: <String, WidgetBuilder>{
+        '/login': (BuildContext context) => LoginScreen(),
+        '/splash': (BuildContext context) => SplashScreen(),
         '/main': (BuildContext context) => ChatsMy(),
         '/detail': (BuildContext context) => ChatsMy(),
       },

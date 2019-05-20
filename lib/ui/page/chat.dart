@@ -21,7 +21,7 @@ class _ChatState extends State<Chat> {
     final FirebaseUser user = await _auth.currentUser();
 
     setState(() {
-      _userName = user.displayName;
+      _userName = user.toString();
     });
   }
 
