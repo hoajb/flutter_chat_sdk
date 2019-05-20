@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../tab_navigator.dart';
 
@@ -8,6 +10,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,15 +21,49 @@ class _LoginScreenState extends State<LoginScreen> {
           child: MaterialButton(
             child: Text("Login by Google"),
             onPressed: () {
-              Navigator.pushNamed(
-                context, TabNavigatorRoutes.main,
-//                  arguments: MovieCategoryPageArguments(
-//                      movies: movieList.childrenMovies, title: movieList.title)
-              );
+              _handleSignIn();
             },
           ),
         ),
       ),
     );
+  }
+
+  void _gotoMain() {
+    Navigator.pushNamed(
+      context, TabNavigatorRoutes.main,
+//                  arguments: MovieCategoryPageArguments(
+//                      movies: movieList.childrenMovies, title: movieList.title)
+    );
+  }
+
+  Future<FirebaseUser> _handleSignIn() async {
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    final FirebaseUser user = await _auth.signInWithCredential(credential);
+    print("signed in " + user.displayName);
+
+    Navigator.pushNamed(
+      context, TabNavigatorRoutes.main,
+//                  arguments: MovieCategoryPageArguments(
+//                      movies: movieList.childrenMovies, title: movieList.title)
+    );
+    return user;
+  }
+
+  void _registerUser(String email, String pass) async {
+    final FirebaseUser user = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: pass,
+    );
+
+//    final FirebaseUser user2 = await _auth.currentUser();
   }
 }
