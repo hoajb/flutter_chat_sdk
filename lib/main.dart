@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginScreen(),
         '/splash': (BuildContext context) => SplashScreen(),
-        '/main': (BuildContext context) => ChatsMy(),
-        '/detail': (BuildContext context) => ChatsMy(),
+        '/main': (BuildContext context) => Main(),
+        '/detail': (BuildContext context) => Main(),
       },
     );
   }

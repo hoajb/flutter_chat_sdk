@@ -29,9 +29,19 @@ class _ChatState extends State<Chat> {
   Widget build(BuildContext context) {
     return Container(
       child: Center(
-        child: Text("UserName: " + _userName),
+        child: Column(
+          children: <Widget>[
+            Text("UserName: " + _userName),
+            RaisedButton(
+              child: Text("Sign Out"),
+              onPressed: () {
+                _auth.signOut();
+                Navigator.of(context, rootNavigator: true).pushNamed('/splash');
+              },
+            )
+          ],
+        ),
       ),
-      color: Colors.brown,
     );
   }
 }

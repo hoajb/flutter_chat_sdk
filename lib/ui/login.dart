@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final FirebaseUser user = await _auth.signInWithCredential(credential);
     print("signed in " + user.displayName);
 
-    Route route = MaterialPageRoute(builder: (context) => ChatsMy());
+    Route route = MaterialPageRoute(builder: (context) => Main());
     Navigator.push(context, route);
     return user;
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_sdk/ui/splashscreen.dart';
 
 import 'ui/page/account.dart';
 import 'ui/page/chat.dart';
@@ -59,10 +60,11 @@ class TabNavigator extends StatelessWidget {
         }
       }
 
-//      if (routeSettings.name == MoviePageArguments.routeName) {
+      if (routeSettings.name == '/splash') {
 //        final MoviePageArguments args = routeSettings.arguments;
-//        return MoviePage(movie: args.movie);
-//      }
+        return SplashScreen();
+      }
+
 //      if (routeSettings.name == TabNavigatorRoutes.movieCategory) {
 //        final MovieCategoryPageArguments args = routeSettings.arguments;
 //        return MovieCategoryPage(movies: args.movies, title: args.title);

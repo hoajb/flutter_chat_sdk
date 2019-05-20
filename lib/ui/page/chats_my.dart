@@ -3,14 +3,14 @@ import 'package:flutter_chat_sdk/widget/bottom_navy_bar.dart';
 
 import '../../tab_navigator.dart';
 
-class ChatsMy extends StatefulWidget {
-  ChatsMy({Key key}) : super(key: key);
+class Main extends StatefulWidget {
+  Main({Key key}) : super(key: key);
 
   @override
-  _ChatsMyState createState() => _ChatsMyState();
+  _MainState createState() => _MainState();
 }
 
-class _ChatsMyState extends State<ChatsMy> with TickerProviderStateMixin {
+class _MainState extends State<Main> with TickerProviderStateMixin {
   int _selectedIndex = TabType.chat;
   PageController _pageController;
 

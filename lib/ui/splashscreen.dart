@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -9,16 +10,19 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> animation;
-  var numTask = 0;
+  AnimationController _controller;
+  Animation<double> _animation;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser _user;
+  var _numTask = 0;
 
   @override
   void initState() {
     super.initState();
-    startTime();
+    _startTime();
+    _getUserInfo();
 //    downloadConfig();
-    startAnimFadeLogo();
+    _startAnimFadeLogo();
   }
 
   @override
@@ -28,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen>
       decoration: BoxDecoration(color: Colors.white),
       child: Center(
         child: FadeTransition(
-          opacity: animation,
+          opacity: _animation,
           child: FractionallySizedBox(
               widthFactor: 0.3, child: Image.asset('images/ic_logo.png')),
         ),
@@ -36,28 +40,37 @@ class _SplashScreenState extends State<SplashScreen>
     ));
   }
 
-  startTime() async {
-    numTask++;
+  _startTime() async {
+    _numTask++;
     return Timer(Duration(milliseconds: 3000), startMainPage);
   }
 
-  startAnimFadeLogo() {
-    controller = AnimationController(
+  _startAnimFadeLogo() {
+    _controller = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
-    animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
+    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
 
-    controller.forward();
+    _controller.forward();
+  }
+
+  _getUserInfo() async {
+    _numTask++;
+    _user = await _auth.currentUser();
+    startMainPage();
   }
 
   downloadConfig() async {
-    numTask++;
+    _numTask++;
     startMainPage();
   }
 
   startMainPage() {
-    numTask--;
-    if (numTask <= 0) {
-      Navigator.of(context).pushReplacementNamed('/main');
+    _numTask--;
+    if (_numTask <= 0) {
+      if (_user != null && !_user.isAnonymous)
+        Navigator.of(context).pushReplacementNamed('/main');
+      else
+        Navigator.of(context).pushReplacementNamed('/login');
     }
   }
 }
