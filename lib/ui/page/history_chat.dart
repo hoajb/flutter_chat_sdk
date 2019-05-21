@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Chat extends StatefulWidget {
+class HistoryChat extends StatefulWidget {
   @override
-  _ChatState createState() => _ChatState();
+  _HistoryChatState createState() => _HistoryChatState();
 }
 
-class _ChatState extends State<Chat> {
+class _HistoryChatState extends State<HistoryChat> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String _userName;
 

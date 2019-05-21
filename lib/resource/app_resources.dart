@@ -51,7 +51,6 @@ class AppColors {
     },
   );
   static const int _colorPrimary = 0xff1d2733;
-
   static const MaterialColor colorThemeAccent = MaterialColor(
     _colorAccent,
     <int, Color>{
@@ -67,10 +66,14 @@ class AppColors {
       900: Color(0xFFbe3507),
     },
   );
-  static const int _colorAccent = 0xffd74211;
 
+  static const int _colorAccent = 0xffd74211;
   static const Color colorCardView = const Color(0xff232e3c);
+  static const Color primaryColor = const Color(0xFF3e4d5f);
+  static const Color greyColor2 = const Color(0x809b9b9b);
+
 }
+
 
 ///
 /// App Images

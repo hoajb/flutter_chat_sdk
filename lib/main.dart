@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_sdk/ui/conversation/chat.dart';
 
 import 'ui/login.dart';
 import 'ui/page/main_page.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         '/login': (BuildContext context) => LoginScreen(),
         '/splash': (BuildContext context) => SplashScreen(),
         '/main': (BuildContext context) => MainPage(),
-        '/detail': (BuildContext context) => MainPage(),
+//        '/chat': (BuildContext context) => Chat(),
       },
     );
   }

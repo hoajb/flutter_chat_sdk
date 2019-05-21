@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_sdk/ui/splashscreen.dart';
 
 import 'ui/page/account.dart';
-import 'ui/page/chat.dart';
+import 'ui/page/history_chat.dart';
 import 'ui/page/people.dart';
 import 'ui/page/setting.dart';
 
@@ -50,7 +50,7 @@ class TabNavigator extends StatelessWidget {
         switch (currentTab) {
           case TabType.chat:
 //            return HomePage(homeBloc: homeBloc);
-            return Chat();
+            return HistoryChat();
           case TabType.people:
             return People(currentUserId: currentUserId);
           case TabType.account:

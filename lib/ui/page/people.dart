@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_sdk/resource/app_resources.dart';
+import 'package:flutter_chat_sdk/ui/conversation/chat.dart';
 import 'package:flutter_chat_sdk/util/alog.dart';
 
 class People extends StatefulWidget {
@@ -103,13 +104,11 @@ class _PeopleState extends State<People> {
             ],
           ),
           onPressed: () {
-//            Navigator.push(
-//                context,
-//                MaterialPageRoute(
-//                    builder: (context) => Chat(
-//                          peerId: document.documentID,
-//                          peerAvatar: document['photoUrl'],
-//                        )));
+            Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                builder: (context) => Chat(
+                      peerId: document.documentID,
+                      peerAvatar: document['photoUrl'],
+                    )));
             Alog.showToast("Chat with - " + document['nickname']);
           },
           color: Colors.grey,
