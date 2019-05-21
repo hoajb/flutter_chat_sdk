@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'ui/login.dart';
-import 'ui/page/chats_my.dart';
+import 'ui/page/main_page.dart';
 import 'ui/splashscreen.dart';
 import 'util/alog.dart';
 
@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginScreen(),
         '/splash': (BuildContext context) => SplashScreen(),
-        '/main': (BuildContext context) => Main(),
-        '/detail': (BuildContext context) => Main(),
+        '/main': (BuildContext context) => MainPage(),
+        '/detail': (BuildContext context) => MainPage(),
       },
     );
   }

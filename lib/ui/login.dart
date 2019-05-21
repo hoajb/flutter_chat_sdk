@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../tab_navigator.dart';
-import 'page/chats_my.dart';
+import 'page/main_page.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -51,9 +52,32 @@ class _LoginScreenState extends State<LoginScreen> {
     final FirebaseUser user = await _auth.signInWithCredential(credential);
     print("signed in " + user.displayName);
 
-    Route route = MaterialPageRoute(builder: (context) => Main());
+    Route route = MaterialPageRoute(builder: (context) => MainPage());
+    _storeUser(user);
     Navigator.push(context, route);
     return user;
+  }
+
+  _storeUser(FirebaseUser firebaseUser) async {
+    if (firebaseUser != null) {
+      // Check is already sign up
+      final QuerySnapshot result = await Firestore.instance
+          .collection('users')
+          .where('id', isEqualTo: firebaseUser.uid)
+          .getDocuments();
+      final List<DocumentSnapshot> documents = result.documents;
+      if (documents.length == 0) {
+        // Update data to server if new user
+        Firestore.instance
+            .collection('users')
+            .document(firebaseUser.uid)
+            .setData({
+          'nickname': firebaseUser.displayName,
+          'photoUrl': firebaseUser.photoUrl,
+          'id': firebaseUser.uid
+        });
+      }
+    }
   }
 
   void _registerUser(String email, String pass) async {
