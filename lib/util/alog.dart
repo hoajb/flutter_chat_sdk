@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_chat_sdk/resource/app_resources.dart';
 import 'package:logging/logging.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 export 'alog.dart';
 
@@ -23,14 +26,14 @@ class Alog {
   }
 
   static void showToast(String mess){
-//    Fluttertoast.showToast(
-//        msg: "This is Center Short Toast",
-//        toastLength: Toast.LENGTH_SHORT,
-//        gravity: ToastGravity.CENTER,
-//        timeInSecForIos: 1,
-//        backgroundColor: Colors.red,
-//        textColor: Colors.white,
-//        fontSize: 16.0
-//    );
+    Fluttertoast.showToast(
+        msg: mess,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 1,
+        backgroundColor: AppColors.colorThemeAccent[400],
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
   }
 }

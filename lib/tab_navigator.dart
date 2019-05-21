@@ -22,11 +22,13 @@ class TabNavigatorRoutes {
 class TabNavigator extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final int currentTab;
+  final currentUserId;
 
 //  final HomeBloc homeBloc;
 
   TabNavigator({
     Key key,
+    @required this.currentUserId,
     @required this.navigatorKey,
     @required this.currentTab,
 //      @required this.homeBloc
@@ -50,7 +52,7 @@ class TabNavigator extends StatelessWidget {
 //            return HomePage(homeBloc: homeBloc);
             return Chat();
           case TabType.people:
-            return People();
+            return People(currentUserId: currentUserId);
           case TabType.account:
             return Account();
           case TabType.setting:
