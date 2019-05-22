@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_sdk/ui/splashscreen.dart';
 
 import 'ui/page/account.dart';
-import 'ui/page/chat.dart';
+import 'ui/page/history_chat.dart';
 import 'ui/page/people.dart';
 import 'ui/page/setting.dart';
 
@@ -14,18 +15,20 @@ class TabType {
 }
 
 class TabNavigatorRoutes {
-  static const String main = '/main';
+  static const String main = '/';
 //  static const String movieCategory = 'movieCategory';
 }
 
 class TabNavigator extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final int currentTab;
+  final currentUserId;
 
 //  final HomeBloc homeBloc;
 
   TabNavigator({
     Key key,
+    @required this.currentUserId,
     @required this.navigatorKey,
     @required this.currentTab,
 //      @required this.homeBloc
@@ -47,9 +50,9 @@ class TabNavigator extends StatelessWidget {
         switch (currentTab) {
           case TabType.chat:
 //            return HomePage(homeBloc: homeBloc);
-            return Chat();
+            return HistoryChat();
           case TabType.people:
-            return People();
+            return People(currentUserId: currentUserId);
           case TabType.account:
             return Account();
           case TabType.setting:
@@ -59,10 +62,11 @@ class TabNavigator extends StatelessWidget {
         }
       }
 
-//      if (routeSettings.name == MoviePageArguments.routeName) {
+      if (routeSettings.name == '/splash') {
 //        final MoviePageArguments args = routeSettings.arguments;
-//        return MoviePage(movie: args.movie);
-//      }
+        return SplashScreen();
+      }
+
 //      if (routeSettings.name == TabNavigatorRoutes.movieCategory) {
 //        final MovieCategoryPageArguments args = routeSettings.arguments;
 //        return MovieCategoryPage(movies: args.movies, title: args.title);
