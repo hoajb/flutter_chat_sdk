@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_chat_sdk/bloc/app/app_bloc.dart';
 import 'package:flutter_chat_sdk/util/alog.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../bloc/app/user.dart';
 import '../tab_navigator.dart';
 import 'page/main_page.dart';
 
@@ -17,9 +20,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   SharedPreferences prefs;
+  AppBloc _appBloc;
 
   @override
   Widget build(BuildContext context) {
+    _appBloc = BlocProvider.of<AppBloc>(context);
     return Scaffold(
       body: Container(
         child: Center(
@@ -56,10 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
     print("signed in " + user.displayName);
 
     if (user != null) {
-      Route route = MaterialPageRoute(
-          builder: (context) => MainPage(
-                currentUserId: user.uid,
-              ));
+      Route route = MaterialPageRoute(builder: (context) => MainPage());
       _storeUser(user);
       Alog.showToast("Sign in success");
       Navigator.push(context, route);
@@ -78,6 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
           .where('id', isEqualTo: firebaseUser.uid)
           .getDocuments();
       final List<DocumentSnapshot> documents = result.documents;
+      UserChat userChat;
       if (documents.length == 0) {
         // Update data to server if new user
         Firestore.instance
@@ -92,12 +95,20 @@ class _LoginScreenState extends State<LoginScreen> {
         await prefs.setString('id', firebaseUser.uid);
         await prefs.setString('nickname', firebaseUser.displayName);
         await prefs.setString('photoUrl', firebaseUser.photoUrl);
+        userChat = UserChat(firebaseUser.displayName, firebaseUser.photoUrl,
+            firebaseUser.uid, "", "" /*dateCreated*/);
       } else {
         await prefs.setString('id', documents[0]['id']);
         await prefs.setString('nickname', documents[0]['nickname']);
         await prefs.setString('photoUrl', documents[0]['photoUrl']);
         await prefs.setString('aboutMe', documents[0]['aboutMe']);
+
+        userChat = UserChat(documents[0]['nickname'], documents[0]['photoUrl'],
+            documents[0]['id'], documents[0]['aboutMe'], "" /*dateCreated*/);
       }
+
+      UserSignInEvent event = UserSignInEvent(userInfo: userChat);
+      _appBloc.dispatch(event);
     }
   }
 

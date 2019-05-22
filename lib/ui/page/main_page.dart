@@ -12,28 +12,25 @@ import '../../tab_navigator.dart';
 import '../splashscreen.dart';
 
 class MainPage extends StatefulWidget {
-  final String currentUserId;
 
-  MainPage({Key key, this.currentUserId}) : super(key: key);
+  MainPage({Key key}) : super(key: key);
 
   @override
-  _MainPageState createState() => _MainPageState(currentUserId);
+  _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
-  final String currentUserId;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   SharedPreferences prefs;
   int _selectedIndex = TabType.chat;
   PageController _pageController;
   bool isLoading = false;
 
-  _MainPageState(this.currentUserId);
+  _MainPageState();
 
   final navigatorKey = GlobalKey<NavigatorState>();
 
 //  HomeBloc _homeBloc;
-
 
   /// keys for each tab
   final Map<int, GlobalKey<NavigatorState>> navigatorKeys = {
@@ -77,7 +74,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 //          homeBloc: _homeBloc,
           navigatorKey: navigatorKeys[tab],
           currentTab: tab,
-          currentUserId: currentUserId,
         ));
   }
 

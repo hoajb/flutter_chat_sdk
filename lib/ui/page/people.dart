@@ -1,26 +1,28 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_chat_sdk/bloc/app/app_bloc.dart';
 import 'package:flutter_chat_sdk/resource/app_resources.dart';
 import 'package:flutter_chat_sdk/ui/conversation/chat.dart';
 import 'package:flutter_chat_sdk/util/alog.dart';
 
 class People extends StatefulWidget {
-  final String currentUserId;
-
-  const People({Key key, this.currentUserId}) : super(key: key);
+  const People({Key key}) : super(key: key);
 
   @override
-  _PeopleState createState() => _PeopleState(currentUserId);
+  _PeopleState createState() => _PeopleState();
 }
 
 class _PeopleState extends State<People> {
-  final String currentUserId;
+  String currentUserId;
 
-  _PeopleState(this.currentUserId);
+  _PeopleState();
 
   @override
   Widget build(BuildContext context) {
+    AppBloc appBloc = BlocProvider.of<AppBloc>(context);
+    currentUserId = appBloc.userInfo.uid ?? "";
     return Container(
       child: StreamBuilder(
         stream: Firestore.instance.collection('users').snapshots(),
