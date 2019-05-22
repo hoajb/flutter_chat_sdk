@@ -108,6 +108,7 @@ class _PeopleState extends State<People> {
                 builder: (context) => Chat(
                       peerId: document.documentID,
                       peerAvatar: document['photoUrl'],
+                      chatWith: document['nickname'],
                     )));
             Alog.showToast("Chat with - " + document['nickname']);
           },
