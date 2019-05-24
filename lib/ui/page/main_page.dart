@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_sdk/resource/app_resources.dart';
+import 'package:flutter_chat_sdk/ui/page/people.dart';
+import 'package:flutter_chat_sdk/ui/page/setting.dart';
 import 'package:flutter_chat_sdk/util/alog.dart';
 import 'package:flutter_chat_sdk/widget/bottom_navy_bar.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -10,9 +12,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../tab_navigator.dart';
 import '../splashscreen.dart';
+import 'account.dart';
+import 'history_chat.dart';
 
 class MainPage extends StatefulWidget {
-
   MainPage({Key key}) : super(key: key);
 
   @override
@@ -53,12 +56,12 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   }
 
   void _onItemTapped(int index) {
-//    _pageController.animateToPage(index,
-//        duration: kTabScrollDuration, curve: Curves.easeInOut);
+    _pageController.animateToPage(index,
+        duration: kTabScrollDuration, curve: Curves.easeInOut);
 
-    setState(() {
-      _selectedIndex = index;
-    });
+//    setState(() {
+//      _selectedIndex = index;
+//    });
   }
 
   void _onPageChanged(int index) {
@@ -110,27 +113,30 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           ),
         ],
       ),
-//      body: PageView(
-//        children: <Widget>[
-//          _buildOffstageNavigator(TabType.chat),
-//          _buildOffstageNavigator(TabType.people),
-//          _buildOffstageNavigator(TabType.account),
-//          _buildOffstageNavigator(TabType.setting),
-//        ],
-//        controller: _pageController,
-//        onPageChanged: _onPageChanged,
-//      ),
       body: WillPopScope(
-        child: Stack(
+        child: PageView(
           children: <Widget>[
-            _buildOffstageNavigator(TabType.chat),
-            _buildOffstageNavigator(TabType.people),
-            _buildOffstageNavigator(TabType.account),
-            _buildOffstageNavigator(TabType.setting),
+            HistoryChat(),
+            People(),
+            Account(),
+            Setting(),
           ],
+          controller: _pageController,
+          onPageChanged: _onPageChanged,
         ),
         onWillPop: onBackPress,
       ),
+//      body: WillPopScope(
+//        child: Stack(
+//          children: <Widget>[
+//            _buildOffstageNavigator(TabType.chat),
+//            _buildOffstageNavigator(TabType.people),
+//            _buildOffstageNavigator(TabType.account),
+//            _buildOffstageNavigator(TabType.setting),
+//          ],
+//        ),
+//        onWillPop: onBackPress,
+//      ),
       bottomNavigationBar: BottomNavyBar(
         items: [
           BottomNavyBarItem(
