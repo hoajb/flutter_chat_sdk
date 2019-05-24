@@ -50,7 +50,7 @@ class _PeopleState extends State<People> {
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
     Alog.debug("DocumentSnapshot " + document.data.toString());
 //    Alog.debug("currentID : " + currentUserId?? "null");
-    Alog.showToast(currentUserId ?? "null");
+//    Alog.showToast(currentUserId ?? "null");
     if (document['id'] == currentUserId) {
       return Container();
     } else {
@@ -84,19 +84,20 @@ class _PeopleState extends State<People> {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          'Nickname: ${document['nickname']}',
-                          style: TextStyle(color: AppColors.colorThemeAccent),
+                          document['nickname'],
+                          style: TextStyle(color: colorTextTitle),
                         ),
                         alignment: Alignment.centerLeft,
-                        margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
+                        margin: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 5.0),
                       ),
                       Container(
                         child: Text(
-                          'About me: ${document['aboutMe'] ?? 'Not available'}',
-                          style: TextStyle(color: AppColors.colorThemeAccent),
+                          '${document['aboutMe'] ?? 'Not available'}',
+                          style: TextStyle(color: colorTextInfo),
+                          maxLines: 1,
                         ),
                         alignment: Alignment.centerLeft,
-                        margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                        margin: EdgeInsets.fromLTRB(5.0, 0.0, 0.0, 0.0),
                       )
                     ],
                   ),
@@ -112,14 +113,14 @@ class _PeopleState extends State<People> {
                       peerAvatar: document['photoUrl'],
                       chatWith: document['nickname'],
                     )));
-            Alog.showToast("Chat with - " + document['nickname']);
+//            Alog.showToast("Chat with - " + document['nickname']);
           },
-          color: Colors.grey,
-          padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+//          color: Colors.grey,
+          padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+//          shape:
+//              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         ),
-        margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
+        margin: EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
       );
     }
   }

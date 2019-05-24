@@ -11,11 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../resource/app_resources.dart';
 
-final Color primaryColor = AppColors.primaryColor;
-final Color greyColor2 = AppColors.greyColor2;
-final Color greyColor = AppColors.greyColor2;
-final Color themeColor = AppColors.colorThemePrimary;
-
 class Chat extends StatelessWidget {
   final String peerId;
   final String peerAvatar;

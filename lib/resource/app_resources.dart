@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 
+final Color primaryColor = AppColors.primaryColor;
+final Color greyColor2 = AppColors.greyColor2;
+final Color greyColor = AppColors.greyColor2;
+final Color themeColor = AppColors.colorThemePrimary;
+
+final Color colorTextTitle = AppColors.colorBlack;
+final Color colorTextInfo = AppColors.colorSeparator;
+
 ///
 /// Apply theme data
 ///
@@ -71,9 +79,7 @@ class AppColors {
   static const Color colorCardView = const Color(0xff232e3c);
   static const Color primaryColor = const Color(0xFF3e4d5f);
   static const Color greyColor2 = const Color(0x809b9b9b);
-
 }
-
 
 ///
 /// App Images
