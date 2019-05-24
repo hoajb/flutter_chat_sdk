@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_chat_sdk/bloc/app/app_bloc.dart';
+import 'package:flutter_chat_sdk/bloc/app/user.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -15,6 +18,7 @@ class _SplashScreenState extends State<SplashScreen>
   final FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser _user;
   var _numTask = 0;
+  AppBloc _appBloc;
 
   @override
   void initState() {
@@ -27,6 +31,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    _appBloc = BlocProvider.of<AppBloc>(context);
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(color: Colors.white),
@@ -67,9 +72,15 @@ class _SplashScreenState extends State<SplashScreen>
   startMainPage() {
     _numTask--;
     if (_numTask <= 0) {
-      if (_user != null && !_user.isAnonymous)
+      if (_user != null && !_user.isAnonymous) {
+        UserChat userChat = UserChat(_user.displayName, _user.photoUrl,
+            _user.uid, "", "" /*dateCreated*/);
+
+        UserSignInEvent event = UserSignInEvent(userInfo: userChat);
+        _appBloc.dispatch(event);
+
         Navigator.of(context).pushReplacementNamed('/main');
-      else
+      } else
         Navigator.of(context).pushReplacementNamed('/login');
     }
   }

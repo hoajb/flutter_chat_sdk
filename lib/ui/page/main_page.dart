@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_sdk/resource/app_resources.dart';
+import 'package:flutter_chat_sdk/ui/page/people.dart';
+import 'package:flutter_chat_sdk/ui/page/setting.dart';
 import 'package:flutter_chat_sdk/util/alog.dart';
 import 'package:flutter_chat_sdk/widget/bottom_navy_bar.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -10,30 +12,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../tab_navigator.dart';
 import '../splashscreen.dart';
+import 'account.dart';
+import 'history_chat.dart';
 
 class MainPage extends StatefulWidget {
-  final String currentUserId;
-
-  MainPage({Key key, this.currentUserId}) : super(key: key);
+  MainPage({Key key}) : super(key: key);
 
   @override
-  _MainPageState createState() => _MainPageState(currentUserId);
+  _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
-  final String currentUserId;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   SharedPreferences prefs;
   int _selectedIndex = TabType.chat;
   PageController _pageController;
   bool isLoading = false;
 
-  _MainPageState(this.currentUserId);
+  _MainPageState();
 
   final navigatorKey = GlobalKey<NavigatorState>();
 
 //  HomeBloc _homeBloc;
-
 
   /// keys for each tab
   final Map<int, GlobalKey<NavigatorState>> navigatorKeys = {
@@ -56,12 +56,12 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   }
 
   void _onItemTapped(int index) {
-//    _pageController.animateToPage(index,
-//        duration: kTabScrollDuration, curve: Curves.easeInOut);
+    _pageController.animateToPage(index,
+        duration: kTabScrollDuration, curve: Curves.easeInOut);
 
-    setState(() {
-      _selectedIndex = index;
-    });
+//    setState(() {
+//      _selectedIndex = index;
+//    });
   }
 
   void _onPageChanged(int index) {
@@ -77,7 +77,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 //          homeBloc: _homeBloc,
           navigatorKey: navigatorKeys[tab],
           currentTab: tab,
-          currentUserId: currentUserId,
         ));
   }
 
@@ -114,27 +113,30 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           ),
         ],
       ),
-//      body: PageView(
-//        children: <Widget>[
-//          _buildOffstageNavigator(TabType.chat),
-//          _buildOffstageNavigator(TabType.people),
-//          _buildOffstageNavigator(TabType.account),
-//          _buildOffstageNavigator(TabType.setting),
-//        ],
-//        controller: _pageController,
-//        onPageChanged: _onPageChanged,
-//      ),
       body: WillPopScope(
-        child: Stack(
+        child: PageView(
           children: <Widget>[
-            _buildOffstageNavigator(TabType.chat),
-            _buildOffstageNavigator(TabType.people),
-            _buildOffstageNavigator(TabType.account),
-            _buildOffstageNavigator(TabType.setting),
+            HistoryChat(),
+            People(),
+            Account(),
+            Setting(),
           ],
+          controller: _pageController,
+          onPageChanged: _onPageChanged,
         ),
         onWillPop: onBackPress,
       ),
+//      body: WillPopScope(
+//        child: Stack(
+//          children: <Widget>[
+//            _buildOffstageNavigator(TabType.chat),
+//            _buildOffstageNavigator(TabType.people),
+//            _buildOffstageNavigator(TabType.account),
+//            _buildOffstageNavigator(TabType.setting),
+//          ],
+//        ),
+//        onWillPop: onBackPress,
+//      ),
       bottomNavigationBar: BottomNavyBar(
         items: [
           BottomNavyBarItem(

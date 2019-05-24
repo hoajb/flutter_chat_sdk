@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_sdk/ui/splashscreen.dart';
 
+import 'bloc/app/app_bloc.dart';
 import 'ui/page/account.dart';
 import 'ui/page/history_chat.dart';
 import 'ui/page/people.dart';
@@ -22,13 +24,11 @@ class TabNavigatorRoutes {
 class TabNavigator extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final int currentTab;
-  final currentUserId;
 
 //  final HomeBloc homeBloc;
 
   TabNavigator({
     Key key,
-    @required this.currentUserId,
     @required this.navigatorKey,
     @required this.currentTab,
 //      @required this.homeBloc
@@ -52,7 +52,7 @@ class TabNavigator extends StatelessWidget {
 //            return HomePage(homeBloc: homeBloc);
             return HistoryChat();
           case TabType.people:
-            return People(currentUserId: currentUserId);
+            return People();
           case TabType.account:
             return Account();
           case TabType.setting:
