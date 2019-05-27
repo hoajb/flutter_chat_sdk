@@ -39,6 +39,7 @@ dependencies:
   intl: ^0.15.8
   cached_network_image: ^0.8.0
   flutter_signin_button: ^0.2.8
+  flutter_facebook_login: ^2.0.0
 
 dev_dependencies:
   flutter_test:

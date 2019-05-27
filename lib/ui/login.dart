@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_sdk/bloc/app/app_bloc.dart';
 import 'package:flutter_chat_sdk/resource/app_resources.dart';
 import 'package:flutter_chat_sdk/util/alog.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -540,8 +541,42 @@ class _LoginScreenState extends State<LoginScreen> {
     return null;
   }
 
-  Future<FirebaseUser> _handleSignInByFB() {
-    //TODO
+  Future<FirebaseUser> _handleSignInByFB() async {
+    final facebookLogin = FacebookLogin();
+    final result = await facebookLogin.logInWithReadPermissions(['email']);
+    FirebaseUser user;
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+//        _sendTokenToServer(result.accessToken.token);
+
+        var credential = FacebookAuthProvider.getCredential(
+            accessToken: result.accessToken.token);
+        user = await _auth.signInWithCredential(credential);
+//        _showLoggedInUI();
+
+        if (user != null) {
+          print("signed in " + user.displayName);
+          Route route = MaterialPageRoute(builder: (context) => MainPage());
+          _storeUser(user);
+          Alog.showToast("Sign in success");
+          Navigator.push(context, route);
+        } else {
+          Alog.showToast("Sign in fail");
+        }
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+//        _showCancelledMessage();
+
+        Alog.showToast("User cancel permission");
+        break;
+      case FacebookLoginStatus.error:
+//        _showErrorOnUI(result.errorMessage);
+        Alog.debug(result.errorMessage);
+        Alog.showToast(result.errorMessage);
+        break;
+    }
+
+    return user;
   }
 
   Future<FirebaseUser> _handleSignInByTwitter() {

@@ -37,6 +37,8 @@ target 'Runner' do
   pod 'Firebase/Core'
   pod 'Firebase/Firestore'
   pod 'GoogleSignIn'
+  pod 'FBSDKCoreKit', '4.39.1'
+  pod 'FBSDKLoginKit', '4.39.1'
 
   # Prepare symlinks folder. We use symlinks to avoid having Podfile.lock
   # referring to absolute paths on developers' machines.
