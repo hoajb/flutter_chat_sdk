@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_sdk/resource/app_resources.dart';
-import 'package:flutter_chat_sdk/ui/conversation/chat.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -274,6 +273,28 @@ class _AccountState extends State<Account> {
                       ),
                     ),
                     margin: EdgeInsets.only(left: 30.0, right: 30.0),
+                  ),
+
+                  Container(
+                    child: Text(
+                      'uid',
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          color: primaryColor),
+                    ),
+                    margin: EdgeInsets.only(left: 10.0, top: 30.0, bottom: 5.0),
+                  ),
+
+                  Container(
+                    child: Text(
+                      id,
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.normal,
+                          color: primaryColor),
+                    ),
+                    margin: EdgeInsets.only(left: 10.0, top: 30.0, bottom: 5.0),
                   ),
                 ],
                 crossAxisAlignment: CrossAxisAlignment.start,

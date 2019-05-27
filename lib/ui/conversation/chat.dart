@@ -178,6 +178,39 @@ class ChatScreenState extends State<ChatScreen> {
           },
         );
       });
+
+      //update user's group chat
+      Firestore.instance.runTransaction((transaction) async {
+        await Firestore.instance
+            .collection('history')
+            .document(id)
+            .collection('group')
+            .document(peerId)
+            .setData({
+          'group': groupChatId,
+          'peerId': peerId,
+          'peerAvatar': peerAvatar,
+          'peerDisplayName': chatWith,
+          'lastMessage': content,
+        });
+      });
+
+      //update peer's group chat
+      Firestore.instance.runTransaction((transaction) async {
+        await Firestore.instance
+            .collection('history')
+            .document(peerId)
+            .collection('group')
+            .document(id)
+            .setData({
+          'group': groupChatId,
+          'peerId': id,
+          'peerAvatar': prefs.getString('photoUrl') ?? '',
+          'peerDisplayName': prefs.getString('nickname') ?? '',
+          'lastMessage': content,
+        });
+      });
+
       listScrollController.animateTo(0.0,
           duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     } else {

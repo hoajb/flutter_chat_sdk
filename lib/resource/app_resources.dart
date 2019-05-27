@@ -6,7 +6,7 @@ final Color greyColor = AppColors.greyColor2;
 final Color themeColor = AppColors.colorThemePrimary;
 
 final Color colorTextTitle = AppColors.colorBlack;
-final Color colorTextInfo = AppColors.colorSeparator;
+final Color colorTextInfo = AppColors.colorGrey;
 
 ///
 /// Apply theme data
@@ -42,7 +42,8 @@ class AppColors {
   static const Color colorSeparator = const Color(0x809b9b9b);
   static const Color colorSeparator24 = const Color(0x3d9b9b9b);
   static const Color colorYoutube = const Color(0xffc4302b);
-  static const Color colorBlack = const Color(0xff4a4a4a);
+  static const Color colorBlack = const Color(0xff000000);
+  static const Color colorGrey = const Color(0xff4a4a4a);
 
   static const MaterialColor colorThemePrimary = MaterialColor(
     _colorPrimary,
