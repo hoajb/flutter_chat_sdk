@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_sdk/util/alog.dart';
+import 'package:flutter_chat_sdk/widget/avatar_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,7 +21,7 @@ class Chat extends StatelessWidget {
       {Key key,
       @required this.peerId,
       @required this.peerAvatar,
-      this.chatWith})
+      @required this.chatWith})
       : super(key: key);
 
   @override
@@ -33,6 +34,7 @@ class Chat extends StatelessWidget {
       body: ChatScreen(
         peerId: peerId,
         peerAvatar: peerAvatar,
+        chatWith: chatWith,
       ),
     );
   }
@@ -41,20 +43,30 @@ class Chat extends StatelessWidget {
 class ChatScreen extends StatefulWidget {
   final String peerId;
   final String peerAvatar;
+  final String chatWith;
 
-  ChatScreen({Key key, @required this.peerId, @required this.peerAvatar})
+  ChatScreen(
+      {Key key,
+      @required this.peerId,
+      @required this.peerAvatar,
+      @required this.chatWith})
       : super(key: key);
 
   @override
-  State createState() =>
-      ChatScreenState(peerId: peerId, peerAvatar: peerAvatar);
+  State createState() => ChatScreenState(
+      peerId: peerId, peerAvatar: peerAvatar, chatWith: chatWith);
 }
 
 class ChatScreenState extends State<ChatScreen> {
-  ChatScreenState({Key key, @required this.peerId, @required this.peerAvatar});
+  ChatScreenState(
+      {Key key,
+      @required this.peerId,
+      @required this.peerAvatar,
+      @required this.chatWith});
 
   String peerId;
   String peerAvatar;
+  String chatWith;
   String id;
 
   var listMessage;
@@ -226,7 +238,7 @@ class ChatScreenState extends State<ChatScreen> {
                                 ),
                                 clipBehavior: Clip.hardEdge,
                               ),
-                          imageUrl: document['content'],
+                          imageUrl: document['content'] ?? '',
                           width: 200.0,
                           height: 200.0,
                           fit: BoxFit.cover,
@@ -261,27 +273,10 @@ class ChatScreenState extends State<ChatScreen> {
             Row(
               children: <Widget>[
                 isLastMessageLeft(index)
-                    ? Material(
-                        child: CachedNetworkImage(
-                          placeholder: (context, url) => Container(
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 1.0,
-                                  valueColor:
-                                      AlwaysStoppedAnimation<Color>(themeColor),
-                                ),
-                                width: 35.0,
-                                height: 35.0,
-                                padding: EdgeInsets.all(10.0),
-                              ),
-                          imageUrl: peerAvatar,
-                          width: 35.0,
-                          height: 35.0,
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(18.0),
-                        ),
-                        clipBehavior: Clip.hardEdge,
+                    ? AvatarWidget(
+                        displayName: chatWith,
+                        size: 35,
+                        urlAvatar: peerAvatar,
                       )
                     : Container(width: 35.0),
                 document['type'] == 0
@@ -329,7 +324,7 @@ class ChatScreenState extends State<ChatScreen> {
                                       ),
                                       clipBehavior: Clip.hardEdge,
                                     ),
-                                imageUrl: document['content'],
+                                imageUrl: document['content'] ?? '',
                                 width: 200.0,
                                 height: 200.0,
                                 fit: BoxFit.cover,

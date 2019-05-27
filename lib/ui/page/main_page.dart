@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_chat_sdk/resource/app_resources.dart';
 import 'package:flutter_chat_sdk/ui/page/people.dart';
 import 'package:flutter_chat_sdk/ui/page/setting.dart';
@@ -171,19 +172,28 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     this.setState(() {
       isLoading = true;
     });
+    var success = false;
+    var errorString = '';
+    try {
+      await FirebaseAuth.instance.signOut();
+      await _googleSignIn.disconnect();
+      await _googleSignIn.signOut();
 
-    await FirebaseAuth.instance.signOut();
-    await _googleSignIn.disconnect();
-    await _googleSignIn.signOut();
+      success = true;
+    } on PlatformException catch (error) {
+      errorString = error.message;
+    }
 
     this.setState(() {
       isLoading = false;
     });
-
-    //TODO
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => SplashScreen()),
-        (Route<dynamic> route) => false);
+    if (success)
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => SplashScreen()),
+          (Route<dynamic> route) => false);
+    else {
+      Alog.showToast(errorString);
+    }
   }
 
   void onItemMenuPress(Choice choice) {

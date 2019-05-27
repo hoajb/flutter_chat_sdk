@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_sdk/bloc/app/app_bloc.dart';
 
+import 'resource/app_resources.dart';
 import 'ui/login.dart';
 import 'ui/page/main_page.dart';
 import 'ui/splashscreen.dart';
@@ -28,6 +29,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           title: "Chat SDK",
           home: SplashScreen(),
+          theme: applyThemeData(ThemeData()),
           routes: <String, WidgetBuilder>{
             '/login': (BuildContext context) => LoginScreen(),
             '/splash': (BuildContext context) => SplashScreen(),

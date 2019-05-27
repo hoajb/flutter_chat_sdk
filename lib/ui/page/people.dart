@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_chat_sdk/bloc/app/app_bloc.dart';
 import 'package:flutter_chat_sdk/resource/app_resources.dart';
 import 'package:flutter_chat_sdk/ui/conversation/chat.dart';
 import 'package:flutter_chat_sdk/util/alog.dart';
+import 'package:flutter_chat_sdk/widget/avatar_widget.dart';
 
 class People extends StatefulWidget {
   const People({Key key}) : super(key: key);
@@ -58,25 +58,10 @@ class _PeopleState extends State<People> {
         child: FlatButton(
           child: Row(
             children: <Widget>[
-              Material(
-                child: CachedNetworkImage(
-                  placeholder: (context, url) => Container(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 1.0,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              AppColors.colorThemeAccent),
-                        ),
-                        width: 50.0,
-                        height: 50.0,
-                        padding: EdgeInsets.all(15.0),
-                      ),
-                  imageUrl: document['photoUrl'],
-                  width: 50.0,
-                  height: 50.0,
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                clipBehavior: Clip.hardEdge,
+              AvatarWidget(
+                urlAvatar: document['photoUrl'],
+                displayName: document['nickname'] ?? document['email'],
+                size: 50,
               ),
               Flexible(
                 child: Container(
@@ -84,7 +69,7 @@ class _PeopleState extends State<People> {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          document['nickname'],
+                          document['nickname'] ?? document['email'] ?? '',
                           style: TextStyle(color: colorTextTitle),
                         ),
                         alignment: Alignment.centerLeft,
@@ -110,8 +95,8 @@ class _PeopleState extends State<People> {
             Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
                 builder: (context) => Chat(
                       peerId: document.documentID,
-                      peerAvatar: document['photoUrl'],
-                      chatWith: document['nickname'],
+                      peerAvatar: document['photoUrl'] ?? '',
+                      chatWith: document['nickname'] ?? document['email'] ?? '',
                     )));
 //            Alog.showToast("Chat with - " + document['nickname']);
           },

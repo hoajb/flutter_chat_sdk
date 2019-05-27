@@ -25,7 +25,8 @@ ThemeData applyThemeData(ThemeData basic) {
 }
 
 TextTheme applyTextTheme(TextTheme basic) {
-  return basic.apply(fontFamily: "Roboto");
+//  return basic.apply(fontFamily: "Roboto");
+  return basic.apply(fontFamily: "Montserrat");
 }
 
 ///
